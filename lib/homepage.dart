@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -45,127 +46,132 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.white,
+        backgroundColor: CupertinoColors.white,
         child: CustomScrollView(
-      slivers: [
-        SliverGrid(
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
-            mainAxisExtent: MediaQuery.of(context).size.height,
-            mainAxisSpacing: 0.0,
-            crossAxisSpacing: 0.0,
-            childAspectRatio: 4.0,
-          ),
-          delegate: SliverChildListDelegate([
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        "assets/code.png",
-                        height: 50,
-                      ),
-                      VerticalDivider(),
-                      const Text("QR Generator",
-                          style: TextStyle(
-                              color: Color(0xFF13334C),
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold))
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Container(
-                            color: CupertinoColors.extraLightBackgroundGray,
-                            child: CupertinoTextFormFieldRow(
-                              controller: content,
-                              prefix: const Icon(CupertinoIcons.textformat_alt),
-                              onChanged: (value) {
-                                context.read<QRC>().setCode(value.toString());
-                              },
-                              style: TextStyle(color: Color(0xFF13334C)),
-                            )),
-                      ),
-                      ButtonBar(
-                        children: [
-                          CupertinoButton(
-                              child:
-                                  const Icon(CupertinoIcons.doc_on_clipboard),
-                              onPressed: () async {
-                                ClipboardData? secretoCopiado =
-                                    await Clipboard.getData(
-                                        Clipboard.kTextPlain);
-                                context
-                                    .read<QRC>()
-                                    .setCode(secretoCopiado!.text.toString());
-                                content.text = secretoCopiado.text!;
-                              }),
-                          CupertinoButton(
-                              child: const Icon(CupertinoIcons.delete),
-                              onPressed: () async {
-                                context.read<QRC>().setCode("");
-                                content.text = "";
-                              }),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+          slivers: [
+            Platform.isAndroid || Platform.isIOS
+                ? SliverList(
+                    delegate: childsSliver(globalKey, sizeqr, context, content,20,100))
+                : SliverGrid(
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
+                      mainAxisExtent: MediaQuery.of(context).size.height,
+                      mainAxisSpacing: 0.0,
+                      crossAxisSpacing: 0.0,
+                      childAspectRatio: 4.0,
+                    ),
+                    delegate: childsSliver(globalKey, sizeqr, context, content, 50, 0))
+          ],
+        ));
+  }
+
+  SliverChildDelegate childsSliver(GlobalKey globalKey, double sizeqr,
+      BuildContext context, TextEditingController content, double size, double height) {
+    return SliverChildListDelegate([
+      Padding(
+        padding: EdgeInsets.fromLTRB(20.0,height,0 ,height),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
               children: [
-                RepaintBoundary(
-                  key: globalKey,
-                  child: Container(
-                    width: sizeqr,
-                    height: sizeqr,
-                    padding: const EdgeInsets.all(10),
-                    color: CupertinoColors.white,
-                    child: SfBarcodeGenerator(
-                        barColor: Color(0xFF13334C),
-                        backgroundColor: CupertinoColors.white,
-                        value: context.watch<QRC>().qr,
-                        symbology: QRCode(
-                            errorCorrectionLevel: ErrorCorrectionLevel.medium)),
-                  ),
+                Image.asset(
+                  "assets/code.png",
+                  height: size,
                 ),
-                CupertinoButton(
-                    color: CupertinoColors.activeOrange,
-                    child: const Text("Save QR"),
-                    onPressed: () async {
-                      Uint8List image = await _capturePng();
-                      String name = getRandomString(15);
-                      await FileSaver.instance
-                          .saveFile(name, image, "png", mimeType: MimeType.PNG);
-                      showCupertinoDialog(
-                          context: context,
-                          builder: (builder) {
-                            return Container(
-                                color: CupertinoColors.white,
-                                child: const Center(
-                                    child: Text(
-                                  "QR save on Downloads",
-                                  style: TextStyle(fontSize: 50),
-                                )));
-                          });
-                      await Future.delayed(const Duration(milliseconds: 1200));
-                      Navigator.pop(context);
-                      //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Imagen guardada en Descargas")));
-                    })
+                VerticalDivider(),
+                Text("QR Generator",
+                    style: TextStyle(
+                        color: Color(0xFF13334C),
+                        fontSize: size,
+                        fontWeight: FontWeight.bold))
               ],
             ),
-          ]),
-        )
-      ],
-    ));
+            Row(
+              children: [
+                Flexible(
+                  child: Container(
+                      color: CupertinoColors.extraLightBackgroundGray,
+                      child: CupertinoTextFormFieldRow(
+                        controller: content,
+                        prefix: const Icon(CupertinoIcons.textformat_alt),
+                        onChanged: (value) {
+                          context.read<QRC>().setCode(value.toString());
+                        },
+                        style: TextStyle(color: Color(0xFF13334C)),
+                      )),
+                ),
+                ButtonBar(
+                  children: [
+                    CupertinoButton(
+                        child: const Icon(CupertinoIcons.doc_on_clipboard),
+                        onPressed: () async {
+                          ClipboardData? secretoCopiado =
+                              await Clipboard.getData(Clipboard.kTextPlain);
+                          context
+                              .read<QRC>()
+                              .setCode(secretoCopiado!.text.toString());
+                          content.text = secretoCopiado.text!;
+                        }),
+                    CupertinoButton(
+                        child: const Icon(CupertinoIcons.delete),
+                        onPressed: () async {
+                          context.read<QRC>().setCode("");
+                          content.text = "";
+                        }),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          RepaintBoundary(
+            key: globalKey,
+            child: Container(
+              width: sizeqr,
+              height: sizeqr,
+              padding: const EdgeInsets.all(10),
+              color: CupertinoColors.white,
+              child: SfBarcodeGenerator(
+                  barColor: Color(0xFF13334C),
+                  backgroundColor: CupertinoColors.white,
+                  value: context.watch<QRC>().qr,
+                  symbology: QRCode(
+                      errorCorrectionLevel: ErrorCorrectionLevel.medium)),
+            ),
+          ),
+          CupertinoButton(
+              color: CupertinoColors.activeOrange,
+              child: const Text("Save QR"),
+              onPressed: () async {
+                Uint8List image = await _capturePng();
+                String name = getRandomString(15);
+                await FileSaver.instance
+                    .saveFile(name, image, "png", mimeType: MimeType.PNG);
+                showCupertinoDialog(
+                    context: context,
+                    builder: (builder) {
+                      return Container(
+                          color: CupertinoColors.white,
+                          child: const Center(
+                              child: Text(
+                            "QR save on Downloads",
+                            style: TextStyle(fontSize: 50),
+                          )));
+                    });
+                await Future.delayed(const Duration(milliseconds: 1200));
+                Navigator.pop(context);
+                //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Imagen guardada en Descargas")));
+              })
+        ],
+      ),
+    ]);
   }
 }
 
