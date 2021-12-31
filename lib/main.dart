@@ -12,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle("QR Generator");
-    setWindowMinSize(Size(850, 600));
+    setWindowMinSize(Size(900, 600));
   }
   runApp(const MyApp());
 }
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<QRC>(
       create: (_) => QRC(),
       child: const CupertinoApp(
+        color: Colors.white,
         title: 'QR Generator',
         theme: CupertinoThemeData(primaryColor: CupertinoColors.activeOrange),
         home: HomePage(),

@@ -1,4 +1,4 @@
-# QR Generator
+# QR Generator with Flutter Multi Platform
 ![enter image description here](https://images.az.gt/storage/pW0xsb5WxwEAB2ZF8KbTOUnutxsEIPbKqfCSAxqs.jpg)
 #### En
 This QR code generator has been created with [syncfusion_flutter_barcodes](https://pub.dev/packages/syncfusion_flutter_barcodes) under the Community Edition license and [provider](https://pub.dev/packages/provider).

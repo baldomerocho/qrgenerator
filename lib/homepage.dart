@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
+      backgroundColor: CupertinoColors.white,
         child: CustomScrollView(
       slivers: [
         SliverGrid(
@@ -87,6 +88,7 @@ class _HomePageState extends State<HomePage> {
                               onChanged: (value) {
                                 context.read<QRC>().setCode(value.toString());
                               },
+                              style: TextStyle(color: Color(0xFF13334C)),
                             )),
                       ),
                       ButtonBar(
