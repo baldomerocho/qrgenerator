@@ -45,13 +45,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool mobile = Platform.isAndroid || Platform.isIOS;
     return CupertinoPageScaffold(
         backgroundColor: CupertinoColors.white,
         child: CustomScrollView(
           slivers: [
-            Platform.isAndroid || Platform.isIOS
+            mobile
                 ? SliverList(
-                    delegate: childsSliver(globalKey, sizeqr, context, content,20,100))
+                    delegate: childsSliver(globalKey, sizeqr, context, content,20,100, mobile))
                 : SliverGrid(
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
@@ -60,16 +61,16 @@ class _HomePageState extends State<HomePage> {
                       crossAxisSpacing: 0.0,
                       childAspectRatio: 4.0,
                     ),
-                    delegate: childsSliver(globalKey, sizeqr, context, content, 50, 0))
+                    delegate: childsSliver(globalKey, sizeqr, context, content, 50, 0, mobile))
           ],
         ));
   }
 
   SliverChildDelegate childsSliver(GlobalKey globalKey, double sizeqr,
-      BuildContext context, TextEditingController content, double size, double height) {
+      BuildContext context, TextEditingController content, double size, double height, bool mobile) {
     return SliverChildListDelegate([
       Padding(
-        padding: EdgeInsets.fromLTRB(20.0,height,0 ,height),
+        padding: EdgeInsets.fromLTRB(20.0,height,0 ,0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -168,7 +169,8 @@ class _HomePageState extends State<HomePage> {
                 await Future.delayed(const Duration(milliseconds: 1200));
                 Navigator.pop(context);
                 //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Imagen guardada en Descargas")));
-              })
+              }),
+          mobile?Container(height: 50,):Container()
         ],
       ),
     ]);
