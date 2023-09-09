@@ -52,7 +52,8 @@ class _HomePageState extends State<HomePage> {
           slivers: [
             mobile
                 ? SliverList(
-                    delegate: childsSliver(globalKey, sizeqr, context, content,20,100, mobile))
+                    delegate: childsSliver(
+                        globalKey, sizeqr, context, content, 20, 100, mobile))
                 : SliverGrid(
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
@@ -61,18 +62,25 @@ class _HomePageState extends State<HomePage> {
                       crossAxisSpacing: 0.0,
                       childAspectRatio: 4.0,
                     ),
-                    delegate: childsSliver(globalKey, sizeqr, context, content, 50, 0, mobile))
+                    delegate: childsSliver(
+                        globalKey, sizeqr, context, content, 50, 0, mobile))
           ],
         ));
   }
 
-  SliverChildDelegate childsSliver(GlobalKey globalKey, double sizeqr,
-      BuildContext context, TextEditingController content, double size, double height, bool mobile) {
+  SliverChildDelegate childsSliver(
+      GlobalKey globalKey,
+      double sizeqr,
+      BuildContext context,
+      TextEditingController content,
+      double size,
+      double height,
+      bool mobile) {
     return SliverChildListDelegate([
       Padding(
-        padding: EdgeInsets.fromLTRB(20.0,height,0 ,0),
+        padding: EdgeInsets.fromLTRB(20.0, height, 0, 0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
@@ -97,9 +105,6 @@ class _HomePageState extends State<HomePage> {
                       child: CupertinoTextFormFieldRow(
                         controller: content,
                         prefix: const Icon(CupertinoIcons.textformat_alt),
-                        onChanged: (value) {
-                          context.read<QRC>().setCode(value.toString());
-                        },
                         style: TextStyle(color: Color(0xFF13334C)),
                       )),
                 ),
@@ -125,6 +130,12 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
+            CupertinoButton(
+                child: Text("Genera QR"),
+                color: CupertinoColors.activeOrange,
+                onPressed: () {
+                  context.read<QRC>().setCode(content.text);
+                })
           ],
         ),
       ),
@@ -170,7 +181,11 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pop(context);
                 //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Imagen guardada en Descargas")));
               }),
-          mobile?Container(height: 50,):Container()
+          mobile
+              ? Container(
+                  height: 50,
+                )
+              : Container()
         ],
       ),
     ]);
