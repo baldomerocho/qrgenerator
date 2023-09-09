@@ -45,27 +45,30 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    bool mobile = Platform.isAndroid || Platform.isIOS;
-    return CupertinoPageScaffold(
-        backgroundColor: CupertinoColors.white,
-        child: CustomScrollView(
-          slivers: [
-            mobile
-                ? SliverList(
-                    delegate: childsSliver(
-                        globalKey, sizeqr, context, content, 20, 100, mobile))
-                : SliverGrid(
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
-                      mainAxisExtent: MediaQuery.of(context).size.height,
-                      mainAxisSpacing: 0.0,
-                      crossAxisSpacing: 0.0,
-                      childAspectRatio: 4.0,
-                    ),
-                    delegate: childsSliver(
-                        globalKey, sizeqr, context, content, 50, 0, mobile))
-          ],
-        ));
+    return LayoutBuilder(builder: (context, constraints) {
+      bool mobile = constraints.maxWidth < 780;
+      return CupertinoPageScaffold(
+          backgroundColor: CupertinoColors.white,
+          child: CustomScrollView(
+            slivers: [
+              mobile
+                  ? SliverList(
+                      delegate: childsSliver(
+                          globalKey, sizeqr, context, content, 20, 100, mobile))
+                  : SliverGrid(
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent:
+                            MediaQuery.of(context).size.width / 2,
+                        mainAxisExtent: MediaQuery.of(context).size.height,
+                        mainAxisSpacing: 0.0,
+                        crossAxisSpacing: 0.0,
+                        childAspectRatio: 4.0,
+                      ),
+                      delegate: childsSliver(
+                          globalKey, sizeqr, context, content, 50, 0, mobile))
+            ],
+          ));
+    });
   }
 
   SliverChildDelegate childsSliver(
