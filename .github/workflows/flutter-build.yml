@@ -33,7 +33,7 @@ jobs:
           flutter build web -t lib/main_web.dart
 
       - name: Deploy a GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: actions/upload-pages-artifact@v2
         with:
-          github_token: ${{ secrets.PAT }}
-          publish_dir: build/web # Directorio de salida de la compilación web
+          artifact-name: web
+          path: build/web
