@@ -10,7 +10,7 @@ import 'my_app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    setWindowTitle("QR Generator Offline");
+    setWindowTitle("QR Generator Free");
     setWindowMinSize(Size(900, 600));
   }
   runApp(const MyApp());

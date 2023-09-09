@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                   height: size,
                 ),
                 VerticalDivider(),
-                Text("QR Generator",
+                Text("QR Generator Free",
                     style: TextStyle(
                         color: Color(0xFF13334C),
                         fontSize: size,
@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             CupertinoButton(
-                child: Text("Genera QR"),
+                child: Text("Generate QR"),
                 color: CupertinoColors.activeOrange,
                 onPressed: () {
                   context.read<QRC>().setCode(content.text);
@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
               child: const Text("Save QR"),
               onPressed: () async {
                 Uint8List image = await _capturePng();
-                String name = getRandomString(15);
+                String name = nameFile(content.text);
                 await FileSaver.instance
                     .saveFile(name, image, "png", mimeType: MimeType.PNG);
                 showCupertinoDialog(
@@ -200,3 +200,10 @@ Random _rnd = Random();
 
 String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
     length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+String nameFile(String string) {
+  // replace all spaces and special char with an underscore
+  String name = string.replaceAll(RegExp(r"\s+\b|\b\s"), "_");
+  name = name.replaceAll(RegExp(r"[^\w\s]+"), "");
+  final random = getRandomString(6);
+  return name + "_" + random;
+}
