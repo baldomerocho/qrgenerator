@@ -203,7 +203,7 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
 String nameFile(String string) {
   // replace all spaces and special char with an underscore
   String name = string.replaceAll(RegExp(r"\s+\b|\b\s"), "_");
-  name = name.replaceAll(RegExp(r"[^\w\s]+"), "");
+  name = name.replaceAll(RegExp(r"[^\w\s]+"), "-");
   final random = getRandomString(6);
   return name + "_" + random;
 }
