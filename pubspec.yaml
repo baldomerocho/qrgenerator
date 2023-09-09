@@ -38,7 +38,7 @@ dependencies:
   syncfusion_flutter_barcodes: ^19.4.40
   file_saver: ^0.0.10
   window_size:
-    path: D:\projects\dart\packages\flutter-desktop-embedding\plugins\window_size
+    path: temp-packages/flutter-desktop-embedding/plugins/window_size
 
 dev_dependencies:
   flutter_test:

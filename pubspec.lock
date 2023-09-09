@@ -388,8 +388,8 @@ packages:
   window_size:
     dependency: "direct main"
     description:
-      path: "D:\\projects\\dart\\packages\\flutter-desktop-embedding\\plugins\\window_size"
-      relative: false
+      path: "temp-packages/flutter-desktop-embedding/plugins/window_size"
+      relative: true
     source: path
     version: "0.1.0"
   xdg_directories:

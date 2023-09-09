@@ -1,0 +1,41 @@
+name: Flutter Web CI/CD
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Clonar flutter-desktop-embedding
+        run: |
+          mkdir temp-packages
+          cd temp-packages
+          git clone https://github.com/google/flutter-desktop-embedding
+          cd flutter-desktop-embedding
+          git checkout c339fe7dd2e17a80f7bb839bfad89d21a6e084ba
+          cd ../../
+
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.5.0'
+
+      - name: Flutter Web Build
+        run: |
+          flutter pub get
+          flutter build web -t lib/main_web.dart
+
+      - name: Deploy a GitHub Pages
+        uses: actions/upload-pages-artifact@v2
+        with:
+          artifact-name: web
+          path: build/web
+
+
