@@ -54007,7 +54007,7 @@ l=q.b.a.a
 k=P.j0("\\s+\\b|\\b\\s",!0)
 j=H.Kp(l,k,"_")
 l=P.j0("[^\\w\\s]+",!0)
-j=H.Kp(j,l,"")
+j=H.Kp(j,l,"-")
 p=E.anp(6)
 s=3
 return P.a9(new R.Og().oB(j+"_"+p,m,"png",C.pH),$async$$0)
