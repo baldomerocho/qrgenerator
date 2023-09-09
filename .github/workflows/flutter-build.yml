@@ -30,7 +30,7 @@ jobs:
       - name: Flutter Web Build
         run: |
           flutter pub get
-          flutter build web -t lib/main_web.dart
+          flutter build web -t lib/main_web.dart --web-renderer canvaskit --release
 
       - name: Deploy a GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
