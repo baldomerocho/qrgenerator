@@ -34043,7 +34043,7 @@ s=s.glL(s)
 q.a.toString
 r=q.gD_()
 q.a.toString
-return new S.lh(p,p,p,new S.YW(),p,p,p,p,C.B9,C.EZ,p,p,C.CF,p,"QR Generator",p,s,C.n,p,r,p,p,C.kw,!1,!1,!1,!1,q.gW4(),!0,p,p,p,!1,new N.iF(q,t.l9))},
+return new S.lh(p,p,p,new S.YW(),p,p,p,p,C.B9,C.EZ,p,p,C.CF,p,"QR Generator Free",p,s,C.n,p,r,p,p,C.kw,!1,!1,!1,!1,q.gW4(),!0,p,p,p,!1,new N.iF(q,t.l9))},
 ak(a,b){var s,r=null
 this.a.toString
 s=this.d
