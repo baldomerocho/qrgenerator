@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       create: (_) => QRC(),
       child: const CupertinoApp(
         color: CupertinoColors.white,
-        title: 'QR Generator',
+        title: 'QR Generator Free',
         theme: CupertinoThemeData(primaryColor: CupertinoColors.activeOrange),
         home: HomePage(),
       ),
